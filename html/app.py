@@ -14,10 +14,8 @@ def hello_world():
 @app.route('/data', methods=['POST'])
 def handle_data():
     file = request.files['file']
-    file.save(file.filename)
-    files = {'file': open(file.filename, 'rb')}
+    files = {'file': file.stream.read()}
     response = requests.post("http://host.docker.internal:5000/html", files=files)
-    os.remove(file.filename)
     return response.text
 
 
